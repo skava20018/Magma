@@ -6,6 +6,9 @@
 <title>Magma — сервер Minecraft</title>
 <meta name="description" content="Magma — приватный сервер Minecraft. IP: magma.pickme.cloud. Заходи играть.">
 <meta name="theme-color" content="#1b1613">
+<link rel="icon" href="icon.jpg">
+<meta property="og:title" content="Magma — сервер Minecraft">
+<meta property="og:image" content="icon.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;700&family=Pixelify+Sans:wght@500;700&display=swap" rel="stylesheet">
@@ -49,7 +52,8 @@
   .nav .links { display: flex; gap: 22px; flex-wrap: wrap; }
   .nav a { text-decoration: none; }
   .nav a:hover { color: var(--ash); }
-  .nav .tag { font-family: var(--pixel); color: var(--glow); font-size: 1.05rem; }
+  .nav .tag { font-family: var(--pixel); color: var(--glow); font-size: 1.05rem; display: inline-flex; align-items: center; gap: 12px; }
+  .nav .icon { width: 36px; height: 36px; object-fit: cover; border: 2px solid var(--cooled); }
 
   .logo {
     font-family: var(--pixel);
@@ -177,7 +181,7 @@
 <header class="hero">
   <div class="wrap">
     <nav class="nav" aria-label="Основное меню">
-      <span class="tag">magma.pickme.cloud</span>
+      <span class="tag"><img class="icon" src="icon.jpg" alt="" onerror="this.remove()">magma.pickme.cloud</span>
       <div class="links">
         <a href="#about">О сервере</a>
         <a href="#features">Что тут есть</a>
