@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Magma — сервер Minecraft</title>
+<meta name="description" content="Magma — приватный сервер Minecraft. IP: magma.pickme.cloud. Заходи играть.">
+<meta name="theme-color" content="#1b1613">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;700&family=Pixelify+Sans:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --crust: #1b1613;
+    --crust-2: #251e1a;
+    --cooled: #3a2f29;
+    --ash: #e8ddd2;
+    --ash-dim: #a89a8d;
+    --lava: #ff4d12;
+    --glow: #ffb23e;
+    --pixel: 'Pixelify Sans', 'Press Start 2P', system-ui, sans-serif;
+    --text: 'Golos Text', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--crust);
+    color: var(--ash);
+    font-family: var(--text);
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; }
+  :focus-visible { outline: 3px solid var(--glow); outline-offset: 3px; }
+
+  .wrap { width: min(1080px, 100% - 40px); margin-inline: auto; }
+
+  /* ---------- hero ---------- */
+  .hero {
+    position: relative;
+    padding: 28px 0 0;
+    overflow: hidden;
+  }
+  .nav {
+    display: flex; gap: 22px; align-items: center; justify-content: space-between;
+    font-size: .95rem; color: var(--ash-dim);
+  }
+  .nav .links { display: flex; gap: 22px; flex-wrap: wrap; }
+  .nav a { text-decoration: none; }
+  .nav a:hover { color: var(--ash); }
+  .nav .tag { font-family: var(--pixel); color: var(--glow); font-size: 1.05rem; }
+
+  .logo {
+    font-family: var(--pixel);
+    font-weight: 700;
+    font-size: clamp(4.6rem, 23vw, 16rem);
+    line-height: .86;
+    letter-spacing: -.01em;
+    margin: clamp(36px, 8vw, 80px) 0 0 -.04em;
+    background: linear-gradient(100deg, #ff7a00, #ffd24a, #ff2d00, #ff9a1f, #c81d00, #ff7a00);
+    background-size: 200% 100%;
+    background-repeat: repeat-x;
+    -webkit-background-clip: text; background-clip: text;
+    color: transparent;
+    animation: flow 16s linear infinite;
+    filter: drop-shadow(0 0 28px rgba(255, 77, 18, .35));
+  }
+  @keyframes flow { to { background-position-x: 200%; } }
+
+  .lead {
+    max-width: 34ch;
+    margin-top: 26px;
+    font-size: clamp(1.25rem, 3.2vw, 1.6rem);
+    line-height: 1.35;
+    font-weight: 500;
+  }
+
+  .join { margin-top: 34px; display: flex; flex-wrap: wrap; gap: 14px; align-items: stretch; }
+  .ip {
+    display: flex; align-items: center; gap: 14px;
+    background: var(--crust-2);
+    border: 2px solid var(--cooled);
+    padding: 12px 14px 12px 18px;
+    font-family: var(--pixel); font-size: 1.35rem;
+  }
+  .ip span { color: var(--ash); }
+  .copy {
+    font: inherit; font-family: var(--text); font-size: .95rem; font-weight: 700;
+    background: var(--lava); color: #1b0a02;
+    border: 0; padding: 10px 16px; cursor: pointer;
+    transition: transform .12s ease, background .12s ease;
+  }
+  .copy:hover { background: var(--glow); }
+  .copy:active { transform: translateY(2px); }
+  .ipbox small { display: block; margin-bottom: 6px; color: var(--ash-dim); font-size: .9rem; }
+  .version { margin-top: 16px; color: var(--ash-dim); font-size: .95rem; }
+
+  /* lava seam between hero and content */
+  .seam {
+    height: 10px; margin-top: clamp(48px, 9vw, 96px);
+    background:
+      linear-gradient(90deg, transparent, var(--lava) 15%, var(--glow) 40%, var(--lava) 62%, transparent 92%);
+    clip-path: polygon(0 60%, 6% 20%, 11% 70%, 19% 30%, 27% 80%, 36% 25%, 44% 75%, 53% 15%, 61% 70%, 70% 30%, 79% 85%, 88% 35%, 100% 65%, 100% 100%, 0 100%);
+    box-shadow: 0 0 40px 6px rgba(255, 77, 18, .5);
+    opacity: .95;
+  }
+
+  /* ---------- sections ---------- */
+  section { padding: clamp(56px, 9vw, 96px) 0 0; }
+  h2 {
+    font-family: var(--pixel); font-weight: 700;
+    font-size: clamp(1.8rem, 5vw, 2.6rem); line-height: 1.1;
+    color: var(--glow); margin-bottom: 28px;
+  }
+
+  .about p { max-width: 62ch; color: var(--ash); }
+  .about p + p { margin-top: 1em; color: var(--ash-dim); }
+  .about a { color: var(--glow); text-underline-offset: 3px; }
+  .about a:hover { color: var(--ash); }
+
+  .rows { border-top: 2px solid var(--cooled); }
+  .row {
+    display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: 8px 32px; padding: 22px 0; border-bottom: 2px solid var(--cooled);
+  }
+  .row h3 { font-family: var(--pixel); font-weight: 500; font-size: 1.45rem; line-height: 1.2; }
+  .row p { color: var(--ash-dim); max-width: 56ch; }
+
+  ol.steps { list-style: none; padding: 0; display: grid; gap: 18px; counter-reset: s; max-width: 62ch; }
+  ol.steps li { counter-increment: s; display: grid; grid-template-columns: 44px 1fr; gap: 16px; align-items: start; }
+  ol.steps li::before {
+    content: counter(s);
+    font-family: var(--pixel); font-weight: 700; font-size: 1.3rem;
+    width: 44px; height: 44px; display: grid; place-items: center;
+    background: var(--lava); color: #1b0a02;
+  }
+  ol.steps strong { display: block; font-weight: 700; }
+  ol.steps span { color: var(--ash-dim); }
+  ol.steps span b { display: inline; color: var(--ash); }
+  code { font-family: var(--pixel); color: var(--glow); }
+
+  ul.rules { padding-left: 1.2em; max-width: 62ch; display: grid; gap: 10px; }
+  .rules-text { max-width: 56ch; color: var(--ash); }
+  .rule-links { margin-top: 20px; display: flex; flex-wrap: wrap; gap: 12px; }
+  .rule-link {
+    display: inline-block; text-decoration: none; font-weight: 700;
+    background: var(--lava); color: #1b0a02; padding: 12px 20px;
+    transition: transform .12s ease, background .12s ease;
+  }
+  .rule-link:hover { background: var(--glow); }
+  .rule-link:active { transform: translateY(2px); }
+
+  footer {
+    margin-top: clamp(64px, 10vw, 110px);
+    border-top: 2px solid var(--cooled);
+    padding: 26px 0 40px;
+    color: var(--ash-dim); font-size: .95rem;
+    display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between;
+  }
+  footer a { text-decoration: none; border-bottom: 1px solid var(--cooled); }
+  footer a:hover { color: var(--ash); }
+
+  @media (max-width: 640px) {
+    .row { grid-template-columns: 1fr; }
+    .ipbox { width: 100%; }
+    .ip { font-size: 1.1rem; width: 100%; justify-content: space-between; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .logo { animation: none; }
+    html { scroll-behavior: auto; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <nav class="nav" aria-label="Основное меню">
+      <span class="tag">magma.pickme.cloud</span>
+      <div class="links">
+        <a href="#about">О сервере</a>
+        <a href="#features">Что тут есть</a>
+        <a href="#join">Как зайти</a>
+        <a href="#rules">Правила</a>
+      </div>
+    </nav>
+
+    <h1 class="logo">MAGMA</h1>
+    <p class="lead">Сервер Minecraft, где мир горячий, а команда дружная.</p>
+
+    <div class="join">
+      <div class="ipbox">
+        <small>Java Edition</small>
+        <div class="ip" aria-label="IP сервера для Java">
+          <span>magma.pickme.cloud</span>
+          <button class="copy" type="button" data-copy="magma.pickme.cloud">Скопировать</button>
+        </div>
+      </div>
+      <div class="ipbox">
+        <small>Bedrock · порт 25870</small>
+        <div class="ip" aria-label="IP сервера для Bedrock">
+          <span>135.181.237.47</span>
+          <button class="copy" type="button" data-copy="135.181.237.47">Скопировать</button>
+        </div>
+      </div>
+    </div>
+    <p class="version">Версия 26.1 · Java и Bedrock</p>
+  </div>
+  <div class="seam" aria-hidden="true"></div>
+</header>
+
+<main class="wrap">
+
+  <section id="about" class="about">
+    <h2>О сервере</h2>
+    <!-- TODO: замени текст на рассказ про свой сервер -->
+    <p>Magma — небольшой сервер, который я делаю для себя и друзей. Здесь можно спокойно строить, добывать ресурсы и исследовать мир без толп случайных игроков.</p>
+    <p>Сервер растёт, и ты можешь на это повлиять. Есть идея, что добавить на сервер? Предложи её в <a href="https://discord.gg/etXGM3Tkhf" target="_blank" rel="noopener">Discord сервера</a> или напиши в личные сообщения <a href="https://t.me/pickmeMagma" target="_blank" rel="noopener">Telegram-канала сервера</a>.</p>
+  </section>
+
+  <section id="features">
+    <h2>Что тут есть</h2>
+    <!-- TODO: впиши реальные особенности своего сервера -->
+    <div class="rows">
+      <div class="row">
+        <h3>Выживание</h3>
+        <p>Классический режим: добываешь, строишь, исследуешь. Без лишних ограничений.</p>
+      </div>
+      <div class="row">
+        <h3>Emotecraft</h3>
+        <p>Эмоции и анимации персонажа: танцуй, махай рукой и общайся жестами.</p>
+      </div>
+      <div class="row">
+        <h3>Simple Voice Chat</h3>
+        <p>Голосовой чат прямо в игре: ты слышишь тех, кто стоит рядом.</p>
+      </div>
+      <div class="row">
+        <h3>Своя команда</h3>
+        <p>Небольшое сообщество, где все друг друга знают и помогают новичкам.</p>
+      </div>
+      <div class="row">
+        <h3>Стабильная работа</h3>
+        <p>Сервер работает без лагов, а обновления выходят заранее и без сюрпризов.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="join">
+    <h2>Как зайти</h2>
+    <ol class="steps">
+      <li>
+        <div>
+          <strong>Открой Minecraft</strong>
+          <span>Запусти версию 26.1: Java Edition или Bedrock (телефон, консоль, Windows).</span>
+        </div>
+      </li>
+      <li>
+        <div>
+          <strong>Добавь сервер</strong>
+          <span><b>Java:</b> «Сетевая игра» → «Добавить сервер», адрес <code>magma.pickme.cloud</code>.<br>
+          <b>Bedrock:</b> «Играть» → «Серверы» → «Добавить сервер», адрес <code>135.181.237.47</code>, порт <code>25870</code>.</span>
+        </div>
+      </li>
+      <li>
+        <div>
+          <strong>Заходи и играй</strong>
+          <span>Выбери сервер в списке и нажми «Подключиться».</span>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <section id="rules">
+    <h2>Правила</h2>
+    <p class="rules-text">Правила сервера находятся в закрепе Telegram-канала. Прочитай их перед игрой, чтобы не было сюрпризов.</p>
+    <div class="rule-links">
+      <a class="rule-link" href="https://t.me/pickmeMagma" target="_blank" rel="noopener">Открыть Telegram-канал</a>
+    </div>
+  </section>
+
+</main>
+
+<div class="wrap">
+  <footer>
+    <span>© <span id="year">2026</span> Magma</span>
+    <span>Сделал <a href="https://skavas2.loc.cc">skavaS2</a></span>
+  </footer>
+</div>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  function copyText(text, btn) {
+    function done() {
+      btn.textContent = 'Скопировано';
+      setTimeout(function () { btn.textContent = 'Скопировать'; }, 1800);
+    }
+    function fallback() {
+      var t = document.createElement('textarea');
+      t.value = text; t.setAttribute('readonly', '');
+      t.style.position = 'fixed'; t.style.opacity = '0';
+      document.body.appendChild(t); t.select();
+      try { document.execCommand('copy'); done(); } catch (e) {}
+      document.body.removeChild(t);
+    }
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(text).then(done, fallback);
+    } else { fallback(); }
+  }
+  Array.prototype.forEach.call(document.querySelectorAll('.copy'), function (b) {
+    b.addEventListener('click', function () { copyText(b.getAttribute('data-copy'), b); });
+  });
+</script>
+</body>
+</html>
